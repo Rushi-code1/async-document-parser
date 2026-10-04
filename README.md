@@ -1,89 +1,68 @@
-# 📄 Async Document Parser
+# 📄 Async Document Parser — Asynchronous Document Processing & Extraction Engine
 
-> An **AI-powered document intelligence platform** that extracts structured data from unstructured documents using FastAPI, LangChain, and Google Gemini 1.5 — with a React.js dashboard and full test coverage.
+> A high-throughput asynchronous document ingestion and information extraction engine built with FastAPI, LangChain, and Google Gemini — delivering non-blocking file processing, structured entity extraction, and a dynamic React.js dashboard.
 
-[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?logo=fastapi)](https://fastapi.tiangolo.com)
-[![LangChain](https://img.shields.io/badge/LangChain-0.2-yellow)](https://langchain.com)
-[![Gemini](https://img.shields.io/badge/Gemini-1.5-blue?logo=google)](https://deepmind.google/gemini)
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org)
-[![License](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-0.3-1C3C3C?logo=langchain&logoColor=white)
+![Gemini](https://img.shields.io/badge/Gemini-1.5%20Pro-4285F4?logo=google-gemini&logoColor=white)
+![React](https://img.shields.io/badge/React-19-20232A?logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?logo=vite&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-success)
 
 ---
 
 ## 🚀 Features
 
-- **AI-Powered Extraction** — Extracts structured JSON from PDFs, DOCXs, and images using Gemini 1.5 Pro
-- **LangChain Pipelines** — Modular extraction chains with prompt templates and output parsers
-- **FastAPI Backend** — Async REST API with JWT authentication and schema validation
-- **JWT Auth** — Secure endpoint protection with token-based authentication
-- **Structured Output** — Returns typed Pydantic schemas — no hallucinated fields
-- **React.js Dashboard** — Upload documents and view extracted data in a clean UI
-- **PyTest Suite** — Unit + integration tests for extractors, auth, and API routes
+- **Non-Blocking Asynchronous Ingestion** — Upload multi-megabyte PDFs and raw documents without blocking server I/O, utilizing async/await primitives.
+- **LLM Entity & Schema Extraction** — Leverages Google Gemini and LangChain structured output chains with Pydantic validation to guarantee clean JSON outputs.
+- **Context-Aware Document Chunking** — Intelligent text chunking preserving paragraph boundaries and table structures for downstream Q&A.
+- **Modern Interactive Dashboard** — Clean React 19 interface powered by Vite, featuring file drag-and-drop, extraction progress tracking, and formatted JSON exports.
+- **Robust Exception Handling** — Handles corrupt files, token rate limits, and schema violations with resilient fallback strategies.
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| **Backend** | FastAPI, Python 3.11 |
-| **AI / LLM** | LangChain 0.2, Google Gemini 1.5 Pro |
-| **Auth** | JWT (python-jose) |
-| **Validation** | Pydantic v2 |
-| **Frontend** | React.js 18 |
-| **Testing** | PyTest, httpx (async test client) |
-| **Deployment** | Docker, Docker Compose |
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Backend API** | FastAPI, Python 3.12 | High-concurrency async REST routes & validation |
+| **AI / Orchestration** | LangChain 0.3, Google Gemini | LLM prompts, chains & schema-guided extraction |
+| **Data Validation** | Pydantic v2 | Strict schema enforcement on extracted payload |
+| **Frontend** | React 19, Vite, Tailwind CSS | Upload dashboard, status tracker, JSON viewer |
+| **Testing** | PyTest, HTTPX AsyncClient | Automated route and extractor test suites |
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture Flow
 
 ```
-┌────────────────┐     REST API      ┌──────────────────────────┐
-│  React.js UI   │ ────────────────► │     FastAPI Backend       │
-│  (Upload/View) │ ◄──── JSON ────── │  (Async, JWT Protected)   │
-└────────────────┘                   └──────────┬───────────────┘
-                                                 │ LangChain Chain
-                                     ┌───────────▼───────────────┐
-                                     │    Gemini 1.5 Pro API      │
-                                     │  (Document Understanding)  │
-                                     └───────────────────────────┘
-```
-
----
-
-## 📁 Project Structure
-
-```
-async-document-parser/
-├── backend/
-│   ├── app/
-│   │   ├── extractor.py        # LangChain + Gemini extraction logic
-│   │   ├── auth.py             # JWT authentication handlers
-│   │   ├── schemas.py          # Pydantic request/response models
-│   │   ├── routes.py           # FastAPI route definitions
-│   │   └── main.py             # App entry point
-│   ├── tests/
-│   │   └── test_main.py        # PyTest integration tests
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── components/         # Upload, Result, Dashboard components
-│   │   └── App.jsx
-│   └── package.json
-├── docker-compose.yml
-└── README.md
+[Document Upload (PDF/TXT)]
+            │
+            ▼
+   [FastAPI Async Endpoint]
+            │
+            ▼
+   [Document Chunking Engine]
+            │
+            ▼
+   [LangChain Extraction Chain] ◄──► [Google Gemini 1.5 Pro]
+            │
+            ▼
+   [Pydantic Schema Validation]
+            │
+            ▼
+  [Structured JSON Response] ──► [React 19 Dashboard]
 ```
 
 ---
 
-## ⚙️ Getting Started
+## ⚡ Getting Started
 
 ### Prerequisites
 - Python 3.11+
 - Node.js 18+
-- Google Gemini API Key ([Get one here](https://aistudio.google.com/app/apikey))
+- Google Gemini API Key
 
 ### 1. Clone the Repository
 ```bash
@@ -97,85 +76,33 @@ cd backend
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-
-# Configure environment
-cp .env.example .env
-# Set GEMINI_API_KEY, SECRET_KEY, ALGORITHM
-
-uvicorn app.main:app --reload
+cp .env.example .env     # Add your GEMINI_API_KEY
+uvicorn main:app --reload --port 8000
 ```
 
 ### 3. Frontend Setup
 ```bash
-cd frontend
+cd ../frontend
 npm install
 npm run dev
 ```
 
-### 4. Or Use Docker Compose
-```bash
-docker-compose up --build
-```
+Open `http://localhost:5173` to start parsing documents!
 
 ---
 
-## 🧪 Running Tests
-```bash
-cd backend
-pytest tests/ -v
-```
+## 👨‍💻 Author & Connect
 
----
+**Rushikesh Deshmukh**  
+*Full Stack Developer & AI Engineer*
 
-## 📡 API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/auth/login` | Get JWT access token |
-| `POST` | `/documents/parse` | Upload & extract document |
-| `GET` | `/documents/{id}` | Retrieve parsed result |
-| `GET` | `/health` | Health check |
-
-### Example: Parse a Document
-```bash
-curl -X POST http://localhost:8000/documents/parse \
-  -H "Authorization: Bearer <token>" \
-  -F "file=@invoice.pdf"
-```
-
-**Response:**
-```json
-{
-  "document_id": "abc123",
-  "extracted_fields": {
-    "invoice_number": "INV-2024-001",
-    "total_amount": 15000.00,
-    "vendor": "TechCorp Pvt Ltd",
-    "date": "2024-09-15"
-  },
-  "confidence": 0.97
-}
-```
-
----
-
-## 🔑 Key Implementation Highlights
-
-- **`extractor.py`** — LangChain `LLMChain` with `StructuredOutputParser` and Gemini 1.5 Pro integration
-- **`auth.py`** — OAuth2 password flow with JWT token creation and validation
-- **`schemas.py`** — Strict Pydantic v2 models ensuring type-safe API contracts
-- **`test_main.py`** — `AsyncClient` tests covering auth flow, file upload, and extraction accuracy
-
----
-
-## 👨‍💻 Author
-
-**Rushikesh Sunil Deshmukh**  
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?logo=linkedin)](https://linkedin.com/in/rushikesh-sunil-deshmukh)
-[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-green)](https://rushi-code1.github.io/portfolio2/)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?logo=github)](https://github.com/Rushi-code1)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Rushikesh_Deshmukh-0A66C2?logo=linkedin&logoColor=white)](https://linkedin.com/in/rushikesh-sunil-deshmukh)
+[![GitHub](https://img.shields.io/badge/GitHub-Rushi--code1-181717?logo=github&logoColor=white)](https://github.com/Rushi-code1)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Live_Site-6366F1?logo=google-chrome&logoColor=white)](https://rushi-code1.github.io/portfolio2/)
+[![Email](https://img.shields.io/badge/Email-rushikesh.deshmukh1103%40gmail.com-EA4335?logo=gmail&logoColor=white)](mailto:rushikesh.deshmukh1103@gmail.com)
 
 ---
 
 ## 📄 License
-This project is licensed under the MIT License.
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
